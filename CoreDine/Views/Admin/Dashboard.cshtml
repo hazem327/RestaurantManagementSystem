@@ -1,0 +1,46 @@
+@model CoreDine.ViewModels.DashboardViewModel
+@{
+    ViewData["Title"] = "Dashboard";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+
+<div class="cd-page-header">
+    <div>
+        <h1>Dashboard</h1>
+        <p>@DateTime.Now.ToString("dddd, MMMM d yyyy")</p>
+    </div>
+</div>
+
+<div class="cd-stats">
+    <div class="cd-stat">
+        <div class="cd-stat-label">Today's Orders</div>
+        <div class="cd-stat-value">@Model.TodayOrderCount</div>
+        <div class="cd-stat-sub">Orders placed today</div>
+    </div>
+    <div class="cd-stat">
+        <div class="cd-stat-label">Today's Revenue</div>
+        <div class="cd-stat-value">$@Model.TodayRevenue.ToString("F2")</div>
+        <div class="cd-stat-sub">Across all tables</div>
+    </div>
+    <div class="cd-stat">
+        <div class="cd-stat-label">Occupied Tables</div>
+        <div class="cd-stat-value">@Model.ActiveTableCount</div>
+        <div class="cd-stat-sub">Currently in use</div>
+    </div>
+    <div class="cd-stat">
+        <div class="cd-stat-label">Menu Items</div>
+        <div class="cd-stat-value">@Model.AvailableMenuItemCount</div>
+        <div class="cd-stat-sub">Available today</div>
+    </div>
+</div>
+
+<div class="cd-card">
+    <div class="cd-card-title">Quick Actions</div>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;">
+        <a asp-controller="Order" asp-action="Index" class="btn-primary">View All Orders</a>
+        <a asp-controller="MenuItem" asp-action="Create" class="btn-secondary">Add Menu Item</a>
+        <a asp-controller="Table" asp-action="Create" class="btn-secondary">Add Table</a>
+        <a asp-controller="Admin" asp-action="CreateStaff" class="btn-secondary">Add Staff</a>
+    </div>
+</div>

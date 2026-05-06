@@ -1,0 +1,39 @@
+@model IEnumerable<CoreDine.Models.DiningTable>
+@{
+    ViewData["Title"] = "Tables";
+}
+
+<div class="cd-page-header">
+    <div>
+        <h1>Dining Tables</h1>
+        <p>@Model.Count() tables configured</p>
+    </div>
+    <a asp-action="Create" class="btn-primary">+ Add Table</a>
+</div>
+
+<div class="cd-table-wrap">
+    <table class="cd-table">
+        <thead>
+            <tr>
+                <th>Table #</th>
+                <th>Capacity</th>
+                <th>Status</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var table in Model)
+            {
+                <tr>
+                    <td><strong>Table @table.TableNumber</strong></td>
+                    <td>@table.Capacity seats</td>
+                    <td><span class="badge-@table.Status.ToString().ToLower()">@table.Status</span></td>
+                    <td style="display:flex;gap:6px;">
+                        <a asp-action="Edit" asp-route-id="@table.TableId" class="btn-secondary btn-sm">Edit</a>
+                        <a asp-action="Delete" asp-route-id="@table.TableId" class="btn-danger btn-sm">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

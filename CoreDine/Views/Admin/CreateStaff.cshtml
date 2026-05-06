@@ -1,0 +1,39 @@
+@model CoreDine.ViewModels.CreateStaffViewModel
+@{
+    ViewData["Title"] = "Add Staff Member";
+}
+
+<div class="cd-page-header">
+    <div>
+        <h1>Add Staff Member</h1>
+        <p>Create a new staff login account</p>
+    </div>
+    <a asp-action="Staff" class="btn-secondary">← Back</a>
+</div>
+
+<div class="cd-card" style="max-width:480px;">
+    <form asp-action="CreateStaff" method="post">
+        @Html.AntiForgeryToken()
+        @if (!ViewData.ModelState.IsValid && ViewData.ModelState.ErrorCount > 0)
+        {
+            <div asp-validation-summary="All" class="validation-summary-errors"></div>
+        }
+
+        <div class="cd-form-group">
+            <label class="cd-form-label">Email</label>
+            <input asp-for="Email" class="cd-form-control" placeholder="staff@coredine.com" />
+            <span asp-validation-for="Email" class="field-validation-error"></span>
+        </div>
+        <div class="cd-form-group">
+            <label class="cd-form-label">Password</label>
+            <input asp-for="Password" type="password" class="cd-form-control" />
+            <span asp-validation-for="Password" class="field-validation-error"></span>
+        </div>
+        <div class="cd-form-group">
+            <label class="cd-form-label">Confirm Password</label>
+            <input asp-for="ConfirmPassword" type="password" class="cd-form-control" />
+            <span asp-validation-for="ConfirmPassword" class="field-validation-error"></span>
+        </div>
+        <button type="submit" class="btn-primary">Create Account</button>
+    </form>
+</div>

@@ -1,0 +1,30 @@
+@model CoreDine.ViewModels.TableViewModel
+@{
+    ViewData["Title"] = "Delete Table";
+}
+
+<div class="cd-page-header">
+    <div>
+        <h1>Delete Table</h1>
+        <p>This action cannot be undone</p>
+    </div>
+    <a asp-action="Index" class="btn-secondary">← Back</a>
+</div>
+
+<div class="cd-card" style="max-width:400px;">
+    <div class="cd-alert cd-alert-danger">
+        Are you sure you want to delete <strong>Table @Model.TableNumber</strong>?
+    </div>
+    <div style="font-size:13.5px;color:var(--gray-600);margin-bottom:20px;">
+        <div><strong>Capacity:</strong> @Model.Capacity seats</div>
+        <div><strong>Status:</strong> @Model.Status</div>
+    </div>
+    <form asp-action="Delete" method="post">
+        @Html.AntiForgeryToken()
+        <input type="hidden" asp-for="TableId" />
+        <div style="display:flex;gap:8px;">
+            <button type="submit" class="btn-danger">Yes, Delete</button>
+            <a asp-action="Index" class="btn-secondary">Cancel</a>
+        </div>
+    </form>
+</div>

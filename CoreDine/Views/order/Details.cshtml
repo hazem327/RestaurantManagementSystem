@@ -1,0 +1,71 @@
+@model CoreDine.ViewModels.OrderViewModel
+@{
+    ViewData["Title"] = "Order Details";
+}
+
+<div class="cd-page-header">
+    <div>
+        <h1>Order #@Model.OrderId</h1>
+        <p>@Model.OrderName — Table @Model.TableNumber</p>
+    </div>
+    <div style="display:flex;gap:8px;">
+        <a asp-action="UpdateStatus" asp-route-id="@Model.OrderId" class="btn-primary">Update Status</a>
+        <a asp-action="AddItem" asp-route-id="@Model.OrderId" class="btn-secondary">+ Add Item</a>
+        @if (User.IsInRole("Admin"))
+        {
+            <a asp-action="Index" class="btn-secondary">← All Orders</a>
+        }
+        else
+        {
+            <a asp-action="TodaysOrders" class="btn-secondary">← Back</a>
+        }
+    </div>
+</div>
+
+<div style="display:grid;grid-template-columns:1fr 320px;gap:20px;align-items:start;">
+    <div class="cd-table-wrap">
+        <table class="cd-table">
+            <thead>
+                <tr>
+                    <th>Item</th>
+                    <th>Qty</th>
+                    <th>Unit Price</th>
+                    <th>Subtotal</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.OrderItems)
+                {
+                    <tr>
+                        <td>@item.MenuItemName</td>
+                        <td>@item.Quantity</td>
+                        <td>$@item.UnitPrice.ToString("F2")</td>
+                        <td>$@item.SubTotal.ToString("F2")</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <div class="cd-card">
+        <div class="cd-card-title">Receipt</div>
+        <div style="display:flex;flex-direction:column;gap:10px;font-size:13.5px;">
+            <div style="display:flex;justify-content:space-between;color:var(--gray-600);">
+                <span>Date</span>
+                <span>@Model.DateCreated.ToString("MMM d, h:mm tt")</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;color:var(--gray-600);">
+                <span>Table</span>
+                <span>Table @Model.TableNumber</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;color:var(--gray-600);">
+                <span>Status</span>
+                <span class="badge-@Model.Status.ToString().ToLower()">@Model.Status</span>
+            </div>
+            <div style="border-top:1px solid var(--gray-200);padding-top:10px;display:flex;justify-content:space-between;font-weight:600;font-size:16px;color:var(--blue-900);">
+                <span>Total</span>
+                <span>$@Model.TotalAmount.ToString("F2")</span>
+            </div>
+        </div>
+    </div>
+</div>

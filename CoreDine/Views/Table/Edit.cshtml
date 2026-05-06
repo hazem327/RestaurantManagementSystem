@@ -1,0 +1,39 @@
+@model CoreDine.ViewModels.TableViewModel
+@{
+    ViewData["Title"] = "Edit Table";
+}
+
+<div class="cd-page-header">
+    <div>
+        <h1>Edit Table</h1>
+        <p>Table @Model.TableNumber</p>
+    </div>
+    <a asp-action="Index" class="btn-secondary">← Back</a>
+</div>
+
+<div class="cd-card" style="max-width:400px;">
+    <form asp-action="Edit" method="post">
+        @Html.AntiForgeryToken()
+        <input type="hidden" asp-for="TableId" />
+        @if (!ViewData.ModelState.IsValid && ViewData.ModelState.ErrorCount > 0)
+        {
+            <div asp-validation-summary="All" class="validation-summary-errors"></div>
+        }
+
+        <div class="cd-form-group">
+            <label class="cd-form-label">Table Number</label>
+            <input asp-for="TableNumber" type="number" class="cd-form-control" />
+            <span asp-validation-for="TableNumber" class="field-validation-error"></span>
+        </div>
+        <div class="cd-form-group">
+            <label class="cd-form-label">Capacity</label>
+            <input asp-for="Capacity" type="number" class="cd-form-control" />
+            <span asp-validation-for="Capacity" class="field-validation-error"></span>
+        </div>
+        <div class="cd-form-group">
+            <label class="cd-form-label">Status</label>
+            <select asp-for="Status" asp-items="Html.GetEnumSelectList<CoreDine.Models.TableStatus>()" class="cd-form-control"></select>
+        </div>
+        <button type="submit" class="btn-primary">Save Changes</button>
+    </form>
+</div>

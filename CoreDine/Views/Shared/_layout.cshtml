@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] — CoreDine</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=DM+Mono&display=swap" rel="stylesheet">
+    <style>
+            :root {
+                --blue-900: #0F2D5A;
+                --blue-800: #1A3E78;
+                --blue-700: #1E4D99;
+                --blue-600: #2563EB;
+                --blue-500: #3B82F6;
+                --blue-400: #60A5FA;
+                --blue-100: #DBEAFE;
+                --blue-50:  #EFF6FF;
+                --white:    #FFFFFF;
+                --gray-50:  #F8FAFC;
+                --gray-100: #F1F5F9;
+                --gray-200: #E2E8F0;
+                --gray-400: #94A3B8;
+                --gray-600: #475569;
+                --gray-800: #1E293B;
+                --sidebar-w: 220px;
+                --topbar-h: 56px;
+            }
+            * { box-sizing: border-box; }
+            body {
+                font-family: 'DM Sans', sans-serif;
+                background: var(--gray-50);
+                color: var(--gray-800);
+                margin: 0;
+            }
+
+            /* Sidebar */
+            .cd-sidebar {
+                position: fixed;
+                top: 0; left: 0;
+                width: var(--sidebar-w);
+                height: 100vh;
+                background: var(--blue-900);
+                display: flex;
+                flex-direction: column;
+                z-index: 100;
+            }
+            .cd-logo {
+                padding: 20px 20px 16px;
+                border-bottom: 1px solid rgba(255,255,255,0.08);
+            }
+            .cd-logo-name {
+                font-size: 20px;
+                font-weight: 600;
+                color: var(--white);
+                letter-spacing: -0.3px;
+            }
+            .cd-logo-name span { color: var(--blue-400); }
+            .cd-logo-sub {
+                font-size: 11px;
+                color: var(--blue-400);
+                margin-top: 1px;
+                font-family: 'DM Mono', monospace;
+                letter-spacing: 0.5px;
+            }
+            .cd-nav { padding: 12px 0; flex: 1; }
+            .cd-nav-label {
+                font-size: 10px;
+                color: rgba(255,255,255,0.3);
+                text-transform: uppercase;
+                letter-spacing: 1px;
+                padding: 8px 20px 4px;
+            }
+            .cd-nav-link {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                padding: 9px 20px;
+                font-size: 13.5px;
+                color: rgba(255,255,255,0.55);
+                text-decoration: none;
+                border-left: 2px solid transparent;
+                transition: all 0.15s;
+            }
+            .cd-nav-link:hover {
+                color: var(--white);
+                background: rgba(255,255,255,0.05);
+                text-decoration: none;
+            }
+            .cd-nav-link.active {
+                color: var(--white);
+                background: rgba(59,130,246,0.15);
+                border-left-color: var(--blue-400);
+            }
+            .cd-nav-link svg { width: 16px; height: 16px; flex-shrink: 0; }
+            .cd-sidebar-footer {
+                padding: 16px 20px;
+                border-top: 1px solid rgba(255,255,255,0.08);
+            }
+
+            /* Main */
+            .cd-main {
+                margin-left: var(--sidebar-w);
+                min-height: 100vh;
+                display: flex;
+                flex-direction: column;
+            }
+
+            /* Topbar */
+            .cd-topbar {
+                position: sticky;
+                top: 0;
+                height: var(--topbar-h);
+                background: var(--white);
+                border-bottom: 1px solid var(--gray-200);
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                padding: 0 28px;
+                z-index: 50;
+            }
+            .cd-page-title { font-size: 15px; font-weight: 600; color: var(--gray-800); }
+            .cd-topbar-right { display: flex; align-items: center; gap: 12px; }
+            .cd-role-badge {
+                font-size: 11px;
+                font-weight: 500;
+                padding: 3px 10px;
+                border-radius: 20px;
+                background: var(--blue-100);
+                color: var(--blue-700);
+                font-family: 'DM Mono', monospace;
+            }
+            .cd-avatar {
+                width: 32px; height: 32px;
+                border-radius: 50%;
+                background: var(--blue-600);
+                color: var(--white);
+                font-size: 13px;
+                font-weight: 600;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            /* Content */
+            .cd-content { padding: 28px; flex: 1; }
+
+            /* Page header */
+            .cd-page-header {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                margin-bottom: 24px;
+            }
+            .cd-page-header h1 {
+                font-size: 22px;
+                font-weight: 600;
+                color: var(--blue-900);
+                margin: 0;
+            }
+            .cd-page-header p { font-size: 13px; color: var(--gray-400); margin: 3px 0 0; }
+
+            /* Stat cards */
+            .cd-stats { display: grid; grid-template-columns: repeat(4,1fr); gap: 14px; margin-bottom: 24px; }
+            .cd-stat {
+                background: var(--white);
+                border: 1px solid var(--gray-200);
+                border-radius: 12px;
+                padding: 18px 20px;
+            }
+            .cd-stat-label { font-size: 12px; color: var(--gray-400); margin-bottom: 6px; font-weight: 500; }
+            .cd-stat-value { font-size: 26px; font-weight: 600; color: var(--blue-900); }
+            .cd-stat-sub { font-size: 11px; color: var(--gray-400); margin-top: 3px; }
+
+            /* Cards */
+            .cd-card {
+                background: var(--white);
+                border: 1px solid var(--gray-200);
+                border-radius: 12px;
+                padding: 24px;
+                margin-bottom: 20px;
+            }
+            .cd-card-title { font-size: 14px; font-weight: 600; color: var(--gray-800); margin-bottom: 16px; }
+
+            /* Table */
+            .cd-table-wrap {
+                background: var(--white);
+                border: 1px solid var(--gray-200);
+                border-radius: 12px;
+                overflow: hidden;
+            }
+            .cd-table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+            .cd-table thead th {
+                background: var(--gray-50);
+                color: var(--gray-600);
+                font-weight: 500;
+                font-size: 12px;
+                text-transform: uppercase;
+                letter-spacing: 0.5px;
+                padding: 11px 16px;
+                border-bottom: 1px solid var(--gray-200);
+                text-align: left;
+            }
+            .cd-table tbody td {
+                padding: 13px 16px;
+                border-bottom: 1px solid var(--gray-100);
+                color: var(--gray-800);
+            }
+            .cd-table tbody tr:last-child td { border-bottom: none; }
+            .cd-table tbody tr:hover { background: var(--blue-50); }
+
+            /* Badges */
+            .badge-pending   { background:#FEF3C7;color:#92400E;font-size:11px;padding:3px 9px;border-radius:20px;font-weight:500; }
+            .badge-preparing { background:#DBEAFE;color:#1E40AF;font-size:11px;padding:3px 9px;border-radius:20px;font-weight:500; }
+            .badge-served    { background:#D1FAE5;color:#065F46;font-size:11px;padding:3px 9px;border-radius:20px;font-weight:500; }
+            .badge-paid      { background:#E0E7FF;color:#3730A3;font-size:11px;padding:3px 9px;border-radius:20px;font-weight:500; }
+            .badge-cancelled { background:#FEE2E2;color:#991B1B;font-size:11px;padding:3px 9px;border-radius:20px;font-weight:500; }
+            .badge-available { background:#D1FAE5;color:#065F46;font-size:11px;padding:3px 9px;border-radius:20px;font-weight:500; }
+            .badge-occupied  { background:#FEE2E2;color:#991B1B;font-size:11px;padding:3px 9px;border-radius:20px;font-weight:500; }
+            .badge-reserved  { background:#FEF3C7;color:#92400E;font-size:11px;padding:3px 9px;border-radius:20px;font-weight:500; }
+            .badge-dirty     { background:#F3F4F6;color:#6B7280;font-size:11px;padding:3px 9px;border-radius:20px;font-weight:500; }
+
+            /* Buttons */
+            .btn-primary {
+                background: var(--blue-600); color: var(--white);
+                border: none; border-radius: 8px;
+                padding: 9px 18px; font-size: 13.5px; font-weight: 500;
+                cursor: pointer; text-decoration: none;
+                display: inline-flex; align-items: center; gap: 6px;
+                transition: background 0.15s;
+            }
+            .btn-primary:hover { background: var(--blue-700); color: var(--white); text-decoration: none; }
+            .btn-secondary {
+                background: var(--white); color: var(--gray-600);
+                border: 1px solid var(--gray-200); border-radius: 8px;
+                padding: 8px 16px; font-size: 13px; font-weight: 500;
+                cursor: pointer; text-decoration: none;
+                display: inline-flex; align-items: center; gap: 6px;
+                transition: all 0.15s;
+            }
+            .btn-secondary:hover { background: var(--gray-100); color: var(--gray-800); text-decoration: none; }
+            .btn-danger {
+                background: #EF4444; color: var(--white);
+                border: none; border-radius: 8px;
+                padding: 8px 16px; font-size: 13px; font-weight: 500;
+                cursor: pointer; text-decoration: none;
+                display: inline-flex; align-items: center; gap: 6px;
+            }
+            .btn-danger:hover { background: #DC2626; color: var(--white); text-decoration: none; }
+            .btn-sm { padding: 5px 12px !important; font-size: 12px !important; border-radius: 6px !important; }
+
+            /* Forms */
+            .cd-form-label { font-size: 13px; font-weight: 500; color: var(--gray-600); margin-bottom: 5px; display: block; }
+            .cd-form-control {
+                width: 100%; padding: 9px 13px;
+                border: 1px solid var(--gray-200); border-radius: 8px;
+                font-size: 13.5px; font-family: 'DM Sans', sans-serif;
+                color: var(--gray-800); background: var(--white);
+                transition: border-color 0.15s, box-shadow 0.15s;
+            }
+            .cd-form-control:focus {
+                outline: none;
+                border-color: var(--blue-500);
+                box-shadow: 0 0 0 3px rgba(59,130,246,0.12);
+            }
+            .cd-form-group { margin-bottom: 18px; }
+            .field-validation-error { font-size: 12px; color: #EF4444; margin-top: 4px; display: block; }
+            .validation-summary-errors {
+                background: #FEE2E2; border: 1px solid #FECACA;
+                color: #991B1B; border-radius: 8px;
+                padding: 12px 16px; font-size: 13px; margin-bottom: 16px;
+            }
+            .validation-summary-errors ul { margin: 0; padding-left: 16px; }
+
+            
+            .cd-alert { border-radius: 8px; padding: 12px 16px; font-size: 13.5px; margin-bottom: 16px; }
+            .cd-alert-success { background:#D1FAE5;color:#065F46;border:1px solid #A7F3D0; }
+            .cd-alert-danger  { background:#FEE2E2;color:#991B1B;border:1px solid #FECACA; }
+            [href*="Register"] { display: none !important; }
+            [href*="ResendEmailConfirmation"] { display: none !important; }
+            #external-account { display: none !important; }
+    </style>
+</head>
+<body>
+    <div class="cd-sidebar">
+        <div class="cd-logo">
+            <div class="cd-logo-name">Core<span>Dine</span></div>
+            <div class="cd-logo-sub">RESTAURANT MANAGER</div>
+        </div>
+        <nav class="cd-nav">
+            @if (User.IsInRole("Admin"))
+            {
+                <div class="cd-nav-label">Overview</div>
+                <a class="cd-nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Admin" && ViewContext.RouteData.Values["action"]?.ToString() == "Dashboard" ? "active" : "")"
+                       asp-controller="Admin" asp-action="Dashboard">
+                    <svg viewBox="0 0 16 16" fill="none"><rect x="1" y="1" width="6" height="6" rx="1" fill="currentColor" /><rect x="9" y="1" width="6" height="6" rx="1" fill="currentColor" /><rect x="1" y="9" width="6" height="6" rx="1" fill="currentColor" /><rect x="9" y="9" width="6" height="6" rx="1" fill="currentColor" /></svg>
+                    Dashboard
+                </a>
+                <a class="cd-nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Order" && ViewContext.RouteData.Values["action"]?.ToString() == "Index" ? "active" : "")"
+                       asp-controller="Order" asp-action="Index">
+                    <svg viewBox="0 0 16 16" fill="none"><path d="M2 4h12M2 8h12M2 12h8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" /></svg>
+                    All Orders
+                </a>
+                <a class="cd-nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Admin" && ViewContext.RouteData.Values["action"]?.ToString() == "Staff" ? "active" : "")"
+                       asp-controller="Admin" asp-action="Staff">
+                    <svg viewBox="0 0 16 16" fill="none"><circle cx="8" cy="5" r="3" stroke="currentColor" stroke-width="1.5" /><path d="M2 14c0-3.3 2.7-6 6-6s6 2.7 6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" /></svg>
+                    Staff
+                </a>
+                <div class="cd-nav-label" style="margin-top:8px">Manage</div>
+                <a class="cd-nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "MenuItem" ? "active" : "")"
+                       asp-controller="MenuItem" asp-action="Index">
+                    <svg viewBox="0 0 16 16" fill="none"><path d="M3 4h10M3 8h7M3 12h5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" /></svg>
+                    Menu Items
+                </a>
+                <a class="cd-nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Table" ? "active" : "")"
+                       asp-controller="Table" asp-action="Index">
+                    <svg viewBox="0 0 16 16" fill="none"><rect x="1" y="4" width="14" height="9" rx="1.5" stroke="currentColor" stroke-width="1.5" /><path d="M5 4V3M11 4V3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" /></svg>
+                    Tables
+                </a>
+                <a class="cd-nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Category" ? "active" : "")"
+                       asp-controller="Category" asp-action="Index">
+                    <svg viewBox="0 0 16 16" fill="none"><path d="M2 4h4M2 8h4M2 12h4M8 4h6M8 8h6M8 12h6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+                    Categories
+                </a>
+            }
+            @if (User.IsInRole("Staff"))
+            {
+                <div class="cd-nav-label">My Work</div>
+                <a class="cd-nav-link @(ViewContext.RouteData.Values["action"]?.ToString() == "TodaysOrders" ? "active" : "")"
+                       asp-controller="Order" asp-action="TodaysOrders">
+                    <svg viewBox="0 0 16 16" fill="none"><path d="M2 4h12M2 8h12M2 12h8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" /></svg>
+                    Today's Orders
+                </a>
+                <a class="cd-nav-link @(ViewContext.RouteData.Values["action"]?.ToString() == "Create" && ViewContext.RouteData.Values["controller"]?.ToString() == "Order" ? "active" : "")"
+                       asp-controller="Order" asp-action="Create">
+                    <svg viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="1.5" /><path d="M8 5v6M5 8h6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" /></svg>
+                    New Order
+                </a>
+            }
+        </nav>
+        <div class="cd-sidebar-footer">
+            <form asp-area="Identity" asp-page="/Account/Logout" method="post">
+                <button type="submit" style="background:none;border:none;padding:0;cursor:pointer;color:rgba(255,255,255,0.4);font-size:12.5px;font-family:'DM Sans',sans-serif;">
+                    Sign out
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <div class="cd-main">
+        <div class="cd-topbar">
+            <div class="cd-page-title">@ViewData["Title"]</div>
+            <div class="cd-topbar-right">
+                @if (User.IsInRole("Admin"))
+                {
+                    <span class="cd-role-badge">Admin</span>
+                }
+                else
+                {
+                    <span class="cd-role-badge">Staff</span>
+                }
+                <div class="cd-avatar">@User.Identity?.Name?.Substring(0, 1).ToUpper()</div>
+            </div>
+        </div>
+        <div class="cd-content">
+            @RenderBody()
+        </div>
+    </div>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

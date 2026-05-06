@@ -1,0 +1,40 @@
+@model CoreDine.ViewModels.AddOrderItemViewModel
+@{
+    ViewData["Title"] = "Add Item to Order";
+}
+
+<div class="cd-page-header">
+    <div>
+        <h1>Add Item</h1>
+        <p>Order #@Model.OrderId</p>
+    </div>
+    <a asp-action="Details" asp-route-id="@Model.OrderId" class="btn-secondary">← View Order</a>
+</div>
+
+<div class="cd-card" style="max-width:480px;">
+    <form asp-action="AddItem" method="post">
+        @Html.AntiForgeryToken()
+        <input type="hidden" asp-for="OrderId" />
+        @if (!ViewData.ModelState.IsValid && ViewData.ModelState.ErrorCount > 0)
+        {
+            <div asp-validation-summary="All" class="validation-summary-errors"></div>
+        }
+
+        <div class="cd-form-group">
+            <label class="cd-form-label">Menu Item</label>
+            <select asp-for="MenuItemId" asp-items="Model.AvailableItems" class="cd-form-control">
+                <option value="">— Select item —</option>
+            </select>
+            <span asp-validation-for="MenuItemId" class="field-validation-error"></span>
+        </div>
+        <div class="cd-form-group">
+            <label class="cd-form-label">Quantity</label>
+            <input asp-for="Quantity" type="number" min="1" class="cd-form-control" value="1" />
+            <span asp-validation-for="Quantity" class="field-validation-error"></span>
+        </div>
+        <div style="display:flex;gap:8px;">
+            <button type="submit" class="btn-primary">Add to Order</button>
+            <a asp-action="Details" asp-route-id="@Model.OrderId" class="btn-secondary">Done</a>
+        </div>
+    </form>
+</div>

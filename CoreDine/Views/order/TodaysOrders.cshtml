@@ -1,0 +1,43 @@
+@model IEnumerable<CoreDine.ViewModels.TodayOrderViewModel>
+@{
+    ViewData["Title"] = "Today's Orders";
+}
+
+<div class="cd-page-header">
+    <div>
+        <h1>Today's Orders</h1>
+        <p>@DateTime.Today.ToString("MMMM d, yyyy")</p>
+    </div>
+    <a asp-action="Create" class="btn-primary">+ New Order</a>
+</div>
+
+<div class="cd-table-wrap">
+    <table class="cd-table">
+        <thead>
+            <tr>
+                <th>Order #</th>
+                <th>Table</th>
+                <th>Time</th>
+                <th>Total</th>
+                <th>Status</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var order in Model)
+            {
+                <tr>
+                    <td><strong>#@order.OrderId</strong></td>
+                    <td>Table @order.TableNumber</td>
+                    <td>@order.DateCreated.ToString("h:mm tt")</td>
+                    <td>$@order.TotalAmount.ToString("F2")</td>
+                    <td><span class="badge-@order.Status.ToString().ToLower()">@order.Status</span></td>
+                    <td style="display:flex;gap:6px;">
+                        <a asp-action="Details" asp-route-id="@order.OrderId" class="btn-secondary btn-sm">View</a>
+                        <a asp-action="UpdateStatus" asp-route-id="@order.OrderId" class="btn-primary btn-sm">Update</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

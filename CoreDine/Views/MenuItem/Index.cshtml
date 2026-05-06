@@ -1,0 +1,53 @@
+@model IEnumerable<CoreDine.Models.MenuItem>
+@{
+    ViewData["Title"] = "Menu Items";
+}
+
+<div class="cd-page-header">
+    <div>
+        <h1>Menu Items</h1>
+        <p>@Model.Count() items total</p>
+    </div>
+    <a asp-action="Create" class="btn-primary">+ Add Item</a>
+</div>
+
+<div class="cd-table-wrap">
+    <table class="cd-table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Category</th>
+                <th>Price</th>
+                <th>Available</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        <div style="font-weight:500;">@item.Name</div>
+                        <div style="font-size:12px;color:var(--gray-400);">@item.Description</div>
+                    </td>
+                    <td>@item.Category?.Name</td>
+                    <td>$@item.Price.ToString("F2")</td>
+                    <td>
+                        @if (item.IsAvailable)
+                        {
+                            <span class="badge-available">Yes</span>
+                        }
+                        else
+                        {
+                            <span class="badge-cancelled">No</span>
+                        }
+                    </td>
+                    <td style="display:flex;gap:6px;">
+                        <a asp-action="Edit" asp-route-id="@item.MenuItemId" class="btn-secondary btn-sm">Edit</a>
+                        <a asp-action="Delete" asp-route-id="@item.MenuItemId" class="btn-danger btn-sm">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

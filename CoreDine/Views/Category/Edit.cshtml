@@ -1,0 +1,31 @@
+@model CoreDine.Models.Category
+@{
+    ViewData["Title"] = "Edit Category";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="cd-page-header">
+    <div>
+        <h1>Edit Category</h1>
+        <p>@Model.Name</p>
+    </div>
+    <a asp-action="Index" class="btn-secondary">← Back</a>
+</div>
+
+<div class="cd-card" style="max-width:400px;">
+    <form asp-action="Edit" method="post">
+        @Html.AntiForgeryToken()
+        <input type="hidden" asp-for="CategoryId" />
+        @if (!ViewData.ModelState.IsValid && ViewData.ModelState.ErrorCount > 0)
+        {
+            <div asp-validation-summary="All" class="validation-summary-errors"></div>
+        }
+
+        <div class="cd-form-group">
+            <label class="cd-form-label">Category Name</label>
+            <input asp-for="Name" class="cd-form-control" />
+            <span asp-validation-for="Name" class="field-validation-error"></span>
+        </div>
+        <button type="submit" class="btn-primary">Save Changes</button>
+    </form>
+</div>

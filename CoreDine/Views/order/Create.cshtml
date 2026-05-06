@@ -1,0 +1,36 @@
+@model CoreDine.ViewModels.CreateOrderViewModel
+@{
+    ViewData["Title"] = "New Order";
+}
+
+<div class="cd-page-header">
+    <div>
+        <h1>New Order</h1>
+        <p>Select a table and name the order</p>
+    </div>
+    <a asp-action="TodaysOrders" class="btn-secondary">← Back</a>
+</div>
+
+<div class="cd-card" style="max-width:480px;">
+    <form asp-action="Create" method="post">
+        @Html.AntiForgeryToken()
+        @if (!ViewData.ModelState.IsValid && ViewData.ModelState.ErrorCount > 0)
+        {
+            <div asp-validation-summary="All" class="validation-summary-errors"></div>
+        }
+
+        <div class="cd-form-group">
+            <label class="cd-form-label">Order Name</label>
+            <input asp-for="OrderName" class="cd-form-control" placeholder="e.g. Lunch for 4" />
+            <span asp-validation-for="OrderName" class="field-validation-error"></span>
+        </div>
+        <div class="cd-form-group">
+            <label class="cd-form-label">Table</label>
+            <select asp-for="TableId" asp-items="Model.Tables" class="cd-form-control">
+                <option value="">— Select a table —</option>
+            </select>
+            <span asp-validation-for="TableId" class="field-validation-error"></span>
+        </div>
+        <button type="submit" class="btn-primary">Create & Add Items →</button>
+    </form>
+</div>

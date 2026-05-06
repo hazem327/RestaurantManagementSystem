@@ -1,0 +1,392 @@
+@{
+    ViewData["Title"] = "Welcome";
+    Layout = null; // Standalone page, no sidebar needed before login
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CoreDine — Restaurant Manager</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=DM+Mono&display=swap" rel="stylesheet">
+    <style>
+            :root {
+                --blue-900: #0F2D5A;
+                --blue-700: #1E4D99;
+                --blue-600: #2563EB;
+                --blue-500: #3B82F6;
+                --blue-400: #60A5FA;
+                --blue-100: #DBEAFE;
+                --blue-50:  #EFF6FF;
+                --white:    #FFFFFF;
+                --gray-50:  #F8FAFC;
+                --gray-200: #E2E8F0;
+                --gray-400: #94A3B8;
+                --gray-600: #475569;
+            }
+            * { box-sizing: border-box; margin: 0; padding: 0; }
+            body {
+                font-family: 'DM Sans', sans-serif;
+                background: var(--gray-50);
+                min-height: 100vh;
+                display: flex;
+                flex-direction: column;
+            }
+
+            /* Nav */
+            .home-nav {
+                background: var(--white);
+                border-bottom: 1px solid var(--gray-200);
+                padding: 0 40px;
+                height: 60px;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+            }
+            .home-nav-logo {
+                font-size: 20px;
+                font-weight: 600;
+                color: var(--blue-900);
+            }
+            .home-nav-logo span { color: var(--blue-500); }
+            .home-nav-links { display: flex; gap: 12px; align-items: center; }
+            .btn-login {
+                background: var(--white);
+                color: var(--blue-600);
+                border: 1px solid var(--blue-600);
+                border-radius: 8px;
+                padding: 8px 20px;
+                font-size: 13.5px;
+                font-weight: 500;
+                text-decoration: none;
+                transition: all 0.15s;
+            }
+            .btn-login:hover {
+                background: var(--blue-50);
+                text-decoration: none;
+                color: var(--blue-700);
+            }
+            .btn-enter {
+                background: var(--blue-600);
+                color: var(--white);
+                border: none;
+                border-radius: 8px;
+                padding: 8px 20px;
+                font-size: 13.5px;
+                font-weight: 500;
+                text-decoration: none;
+                transition: background 0.15s;
+            }
+            .btn-enter:hover {
+                background: var(--blue-700);
+                color: var(--white);
+                text-decoration: none;
+            }
+
+            /* Hero */
+            .home-hero {
+                flex: 1;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                text-align: center;
+                padding: 60px 20px 40px;
+            }
+            .home-hero-badge {
+                font-size: 11px;
+                font-family: 'DM Mono', monospace;
+                letter-spacing: 1.5px;
+                text-transform: uppercase;
+                color: var(--blue-600);
+                background: var(--blue-100);
+                padding: 5px 14px;
+                border-radius: 20px;
+                margin-bottom: 24px;
+                display: inline-block;
+            }
+            .home-hero h1 {
+                font-size: 48px;
+                font-weight: 600;
+                color: var(--blue-900);
+                line-height: 1.15;
+                letter-spacing: -1px;
+                margin-bottom: 16px;
+            }
+            .home-hero h1 span { color: var(--blue-500); }
+            .home-hero p {
+                font-size: 16px;
+                color: var(--gray-600);
+                max-width: 460px;
+                line-height: 1.6;
+                margin-bottom: 36px;
+            }
+            .home-hero-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+            .btn-hero-primary {
+                background: var(--blue-600);
+                color: var(--white);
+                border: none;
+                border-radius: 10px;
+                padding: 13px 28px;
+                font-size: 15px;
+                font-weight: 500;
+                text-decoration: none;
+                transition: background 0.15s;
+                font-family: 'DM Sans', sans-serif;
+            }
+            .btn-hero-primary:hover {
+                background: var(--blue-700);
+                color: var(--white);
+                text-decoration: none;
+            }
+            .btn-hero-secondary {
+                background: var(--white);
+                color: var(--blue-900);
+                border: 1px solid var(--gray-200);
+                border-radius: 10px;
+                padding: 13px 28px;
+                font-size: 15px;
+                font-weight: 500;
+                text-decoration: none;
+                transition: all 0.15s;
+                font-family: 'DM Sans', sans-serif;
+            }
+            .btn-hero-secondary:hover {
+                background: var(--gray-50);
+                color: var(--blue-900);
+                text-decoration: none;
+            }
+
+            /* Feature cards */
+            .home-features {
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                gap: 16px;
+                max-width: 900px;
+                width: 100%;
+                margin: 48px auto 0;
+                padding: 0 20px 60px;
+            }
+            .feature-card {
+                background: var(--white);
+                border: 1px solid var(--gray-200);
+                border-radius: 12px;
+                padding: 24px;
+                text-align: left;
+            }
+            .feature-icon {
+                width: 40px;
+                height: 40px;
+                background: var(--blue-50);
+                border-radius: 10px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin-bottom: 14px;
+            }
+            .feature-icon svg { width: 20px; height: 20px; color: var(--blue-600); }
+            .feature-title {
+                font-size: 14px;
+                font-weight: 600;
+                color: var(--blue-900);
+                margin-bottom: 6px;
+            }
+            .feature-desc {
+                font-size: 13px;
+                color: var(--gray-400);
+                line-height: 1.55;
+            }
+
+            /* Role cards */
+            .home-roles {
+                max-width: 700px;
+                margin: 0 auto;
+                padding: 0 20px 60px;
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 16px;
+            }
+            .role-card {
+                background: var(--white);
+                border: 1px solid var(--gray-200);
+                border-radius: 12px;
+                padding: 24px;
+                text-align: center;
+                text-decoration: none;
+                transition: all 0.15s;
+                display: block;
+            }
+            .role-card:hover {
+                border-color: var(--blue-400);
+                box-shadow: 0 4px 20px rgba(37,99,235,0.1);
+                text-decoration: none;
+                transform: translateY(-2px);
+            }
+            .role-card-icon {
+                width: 52px;
+                height: 52px;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin: 0 auto 14px;
+            }
+            .role-card-icon svg { width: 24px; height: 24px; }
+            .role-card-title { font-size: 16px; font-weight: 600; color: var(--blue-900); margin-bottom: 6px; }
+            .role-card-desc { font-size: 13px; color: var(--gray-400); line-height: 1.5; }
+            .role-card-badge {
+                display: inline-block;
+                margin-top: 14px;
+                font-size: 11px;
+                font-family: 'DM Mono', monospace;
+                padding: 4px 12px;
+                border-radius: 20px;
+            }
+
+            .section-label {
+                text-align: center;
+                font-size: 12px;
+                font-family: 'DM Mono', monospace;
+                letter-spacing: 1px;
+                text-transform: uppercase;
+                color: var(--gray-400);
+                margin-bottom: 20px;
+            }
+
+            footer {
+                border-top: 1px solid var(--gray-200);
+                padding: 20px 40px;
+                text-align: center;
+                font-size: 12px;
+                color: var(--gray-400);
+                background: var(--white);
+            }
+    </style>
+</head>
+<body>
+
+    <!-- Nav -->
+    <nav class="home-nav">
+        <div class="home-nav-logo">Core<span>Dine</span></div>
+        <div class="home-nav-links">
+            @if (User.Identity?.IsAuthenticated == true)
+            {
+                @if (User.IsInRole("Admin"))
+                {
+                    <a asp-controller="Admin" asp-action="Dashboard" class="btn-enter">Go to Dashboard →</a>
+                }
+                else
+                {
+                    <a asp-controller="Order" asp-action="TodaysOrders" class="btn-enter">Go to Orders →</a>
+                }
+            }
+            else
+            {
+                <a asp-area="Identity" asp-page="/Account/Login" class="btn-login">Sign in</a>
+            }
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <section class="home-hero">
+        <div class="home-hero-badge">Restaurant Management System</div>
+        <h1>Run your restaurant<br />with <span>CoreDine</span></h1>
+        <p>Manage orders, tables, and your full menu from one clean interface. Built for both managers and front-of-house staff.</p>
+
+        <div class="home-hero-actions">
+            @if (User.Identity?.IsAuthenticated == true)
+            {
+                @if (User.IsInRole("Admin"))
+                {
+                    <a asp-controller="Admin" asp-action="Dashboard" class="btn-hero-primary">Go to Dashboard</a>
+                }
+                else
+                {
+                    <a asp-controller="Order" asp-action="TodaysOrders" class="btn-hero-primary">View Today's Orders</a>
+                }
+            }
+            else
+            {
+                <a asp-area="Identity" asp-page="/Account/Login" class="btn-hero-primary">Sign in to get started</a>
+                <a href="#roles" class="btn-hero-secondary">Learn more</a>
+            }
+        </div>
+    </section>
+
+    <!-- Features -->
+    <div class="home-features">
+        <div class="feature-card">
+            <div class="feature-icon">
+                <svg viewBox="0 0 20 20" fill="none"><path d="M3 5h14M3 10h14M3 15h8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" /></svg>
+            </div>
+            <div class="feature-title">Order Management</div>
+            <div class="feature-desc">Create orders, add items, track status from Pending through to Paid in real time.</div>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">
+                <svg viewBox="0 0 20 20" fill="none"><rect x="2" y="5" width="16" height="12" rx="2" stroke="currentColor" stroke-width="1.5" /><path d="M6 5V4M14 5V4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" /></svg>
+            </div>
+            <div class="feature-title">Table Control</div>
+            <div class="feature-desc">Monitor which tables are available, occupied, reserved, or need clearing.</div>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">
+                <svg viewBox="0 0 20 20" fill="none"><path d="M10 2v16M2 10h16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" /></svg>
+            </div>
+            <div class="feature-title">Menu Builder</div>
+            <div class="feature-desc">Add, edit, and toggle menu items by category. Price changes never affect past orders.</div>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">
+                <svg viewBox="0 0 20 20" fill="none"><rect x="3" y="3" width="6" height="6" rx="1" fill="currentColor" /><rect x="11" y="3" width="6" height="6" rx="1" fill="currentColor" /><rect x="3" y="11" width="6" height="6" rx="1" fill="currentColor" /><rect x="11" y="11" width="6" height="6" rx="1" fill="currentColor" /></svg>
+            </div>
+            <div class="feature-title">Admin Dashboard</div>
+            <div class="feature-desc">See today's revenue, order count, and table occupancy at a glance.</div>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">
+                <svg viewBox="0 0 20 20" fill="none"><circle cx="10" cy="7" r="4" stroke="currentColor" stroke-width="1.5" /><path d="M3 18c0-4 3.1-7 7-7s7 3 7 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" /></svg>
+            </div>
+            <div class="feature-title">Role-Based Access</div>
+            <div class="feature-desc">Admins manage everything. Staff see only what they need to do their job.</div>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">
+                <svg viewBox="0 0 20 20" fill="none"><path d="M4 10h12M10 4l6 6-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" /></svg>
+            </div>
+            <div class="feature-title">Smart Totals</div>
+            <div class="feature-desc">Order totals are calculated automatically and snapshotted at close — always accurate.</div>
+        </div>
+    </div>
+
+    <!-- Role entry cards -->
+    <div id="roles" style="max-width:700px;margin:0 auto;padding:0 20px 16px;">
+        <div class="section-label">Sign in as</div>
+    </div>
+    <div class="home-roles">
+        <a asp-area="Identity" asp-page="/Account/Login" class="role-card">
+            <div class="role-card-icon" style="background:#EFF6FF;">
+                <svg viewBox="0 0 24 24" fill="none" style="color:#2563EB;"><rect x="3" y="3" width="8" height="8" rx="1.5" fill="currentColor" /><rect x="13" y="3" width="8" height="8" rx="1.5" fill="currentColor" /><rect x="3" y="13" width="8" height="8" rx="1.5" fill="currentColor" /><rect x="13" y="13" width="8" height="8" rx="1.5" fill="currentColor" /></svg>
+            </div>
+            <div class="role-card-title">Admin</div>
+            <div class="role-card-desc">Full access to dashboard, all orders, staff accounts, menu, and tables.</div>
+            <span class="role-card-badge" style="background:#DBEAFE;color:#1E40AF;">admin@coredine.com</span>
+        </a>
+        <a asp-area="Identity" asp-page="/Account/Login" class="role-card">
+            <div class="role-card-icon" style="background:#F0FDF4;">
+                <svg viewBox="0 0 24 24" fill="none" style="color:#16A34A;"><circle cx="12" cy="8" r="4" fill="currentColor" /><path d="M4 20c0-4.4 3.6-8 8-8s8 3.6 8 8" stroke="currentColor" stroke-width="2" stroke-linecap="round" /></svg>
+            </div>
+            <div class="role-card-title">Staff</div>
+            <div class="role-card-desc">Access to today's orders and the ability to create and update orders for tables.</div>
+            <span class="role-card-badge" style="background:#DCFCE7;color:#15803D;">Staff login</span>
+        </a>
+    </div>
+
+    <footer>
+        CoreDine © @DateTime.Now.Year — Restaurant Management System
+    </footer>
+
+</body>
+</html>

@@ -1,0 +1,38 @@
+@model IEnumerable<CoreDine.Models.Category>
+@{
+    ViewData["Title"] = "Categories";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="cd-page-header">
+    <div>
+        <h1>Categories</h1>
+        <p>@Model.Count() categories total</p>
+    </div>
+    <a asp-action="Create" class="btn-primary">+ Add Category</a>
+</div>
+
+<div class="cd-table-wrap">
+    <table class="cd-table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Menu Items</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var category in Model)
+            {
+                <tr>
+                    <td><strong>@category.Name</strong></td>
+                    <td>@category.MenuItems.Count() items</td>
+                    <td style="display:flex;gap:6px;">
+                        <a asp-action="Edit" asp-route-id="@category.CategoryId" class="btn-secondary btn-sm">Edit</a>
+                        <a asp-action="Delete" asp-route-id="@category.CategoryId" class="btn-danger btn-sm">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

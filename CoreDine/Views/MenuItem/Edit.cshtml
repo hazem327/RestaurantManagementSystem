@@ -1,0 +1,55 @@
+@model CoreDine.ViewModels.MenuItemViewModel
+@{
+    ViewData["Title"] = "Edit Menu Item";
+}
+
+<div class="cd-page-header">
+    <div>
+        <h1>Edit Item</h1>
+        <p>@Model.Name</p>
+    </div>
+    <a asp-action="Index" class="btn-secondary">← Back</a>
+</div>
+
+<div class="cd-card" style="max-width:520px;">
+    <form asp-action="Edit" method="post">
+        @Html.AntiForgeryToken()
+        <input type="hidden" asp-for="MenuItemId" />
+        @if (!ViewData.ModelState.IsValid && ViewData.ModelState.ErrorCount > 0)
+        {
+            <div asp-validation-summary="All" class="validation-summary-errors"></div>
+        }
+
+        <div class="cd-form-group">
+            <label class="cd-form-label">Item Name</label>
+            <input asp-for="Name" class="cd-form-control" />
+            <span asp-validation-for="Name" class="field-validation-error"></span>
+        </div>
+        <div class="cd-form-group">
+            <label class="cd-form-label">Description</label>
+            <textarea asp-for="Description" class="cd-form-control" rows="3"></textarea>
+            <span asp-validation-for="Description" class="field-validation-error"></span>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+            <div class="cd-form-group">
+                <label class="cd-form-label">Price ($)</label>
+                <input asp-for="Price" type="number" step="0.01" class="cd-form-control" />
+                <span asp-validation-for="Price" class="field-validation-error"></span>
+            </div>
+            <div class="cd-form-group">
+                <label class="cd-form-label">Category</label>
+                <select asp-for="CategoryId" asp-items="Model.Categories" class="cd-form-control">
+                    <option value="">— Select —</option>
+                </select>
+                <span asp-validation-for="CategoryId" class="field-validation-error"></span>
+            </div>
+        </div>
+        <div class="cd-form-group">
+            <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:13.5px;color:var(--gray-600);">
+                <input asp-for="IsAvailable" type="checkbox" style="width:16px;height:16px;" />
+                Available on menu
+            </label>
+        </div>
+        <button type="submit" class="btn-primary">Save Changes</button>
+    </form>
+</div>

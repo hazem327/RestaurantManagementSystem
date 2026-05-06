@@ -1,0 +1,30 @@
+@model CoreDine.Models.Category
+@{
+    ViewData["Title"] = "Add Category";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="cd-page-header">
+    <div>
+        <h1>Add Category</h1>
+        <p>Create a new menu category</p>
+    </div>
+    <a asp-action="Index" class="btn-secondary">← Back</a>
+</div>
+
+<div class="cd-card" style="max-width:400px;">
+    <form asp-action="Create" method="post">
+        @Html.AntiForgeryToken()
+        @if (!ViewData.ModelState.IsValid && ViewData.ModelState.ErrorCount > 0)
+        {
+            <div asp-validation-summary="All" class="validation-summary-errors"></div>
+        }
+
+        <div class="cd-form-group">
+            <label class="cd-form-label">Category Name</label>
+            <input asp-for="Name" class="cd-form-control" placeholder="e.g. Starters, Mains, Desserts" />
+            <span asp-validation-for="Name" class="field-validation-error"></span>
+        </div>
+        <button type="submit" class="btn-primary">Save Category</button>
+    </form>
+</div>
