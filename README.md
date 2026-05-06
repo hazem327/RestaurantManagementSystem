@@ -47,14 +47,21 @@ Installation
 Clone the repository:
 
 Bash
-git clone https://github.com/your-username/CoreDine.git
+git clone https://github.com/hazem327/RestaurantManagementSystem.git
 Update the Database:
 Open the Package Manager Console and run:
 
 Bash
 Update-Database
-Seed Data:
-The application automatically seeds an Admin and Staff account on the first run via the RoleSeeder class.  
+
+🔐 Administrative Access
+The system is pre-configured with a default administrator account for evaluation purposes.  
+
+Admin Email: admin@coredine.com
+
+  
+
+Admin Password: Admin@1234
 
 📝 Learning Objectives Reached
 During this build, I focused on:
