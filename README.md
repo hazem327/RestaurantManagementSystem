@@ -16,7 +16,7 @@ Database: SQL Server via Entity Framework Core
 
 Security: Microsoft Identity (Roles: Admin, Staff)
 
-Frontend: Razor Pages, CSS3 (Custom Variables), JavaScript/jQuery
+Frontend: Razor Pages, CSS3 (Custom Variables)
 
 Patterns:
 
